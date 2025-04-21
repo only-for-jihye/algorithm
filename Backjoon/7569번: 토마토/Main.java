@@ -54,18 +54,19 @@ public class Main {
             }
         }
         
-        int result = bfs() - 1;
-        for(int i = 0; i < h; i++) {
-            for(int j = 0; j < n; j++) {
-                for(int k = 0; k < m; k++) {
-                    if(boxes[i][j][k] == 0) {
-                        result = -1;
-                        break;
-                    }
-                }
-            }
-        }
-        System.out.println(result);
+        // int result = bfs() - 1;
+        // for(int i = 0; i < h; i++) {
+        //     for(int j = 0; j < n; j++) {
+        //         for(int k = 0; k < m; k++) {
+        //             if(boxes[i][j][k] == 0) {
+        //                 result = -1;
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
+        // System.out.println(result);
+        System.out.println(bfs());
     }
 
     static int bfs() {
@@ -76,12 +77,14 @@ public class Main {
         int[] my = {0, 0, 0, 1, 0, -1};
         int[] mx = {0, 0, -1, 0, 1, 0};
 
-        // 익은 토마토의 좌표를 Queue에 넣는다
+        // 익은 토마토의 좌표를 Queue에 넣는다.
         Queue<Tomato> que = new LinkedList<>();
         for(int i = 0; i < iktomato.size(); i++) {
             que.offer(iktomato.get(i));
         }
 
+        int day = 0;
+        
         // bfs 탐색
         while(!que.isEmpty()) {
             // 익은 토마토 위치 꺼내기
@@ -103,14 +106,30 @@ public class Main {
                         continue;
                     }
                 
-                // 안익은 토마토가 있으면 익힌 배열에 넣기
+                // 안익은 토마토가 있으면 익혀야하므로 큐에 넣기
                 if(boxes[dz][dy][dx] == 0) {
                     que.offer(new Tomato(dz, dy, dx));
+                    // +1씩 누적하여 마지막에 익은 토마토의 일 수를 구한다
                     boxes[dz][dy][dx] = boxes[z][y][x] + 1;
                 }
             }
         }
-        return boxes[z][y][x];
+        
+        // 마지막에 익은 토마토의 일 수에서 -1을 뺀다. 익기 시작한 날짜가 1일부터니까.. 걸린 날짜 수는 -1일이 되어야함
+        day = boxes[z][y][x] - 1;
+
+        // 아직 안익은 토마토가 있는지 확인 -> 토마토가 모두 익지 못하는 상황이면 -1을 출력
+        for(int i = 0; i < h; i++) {
+            for(int j = 0; j < n; j++) {
+                for(int k = 0; k < m; k++) {
+                    if(boxes[i][j][k] == 0) {
+                        day = -1;
+                        break;
+                    }
+                }
+            }
+        }
+        return day;
     }
 }
     
