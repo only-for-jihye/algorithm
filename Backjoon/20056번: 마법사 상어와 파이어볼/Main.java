@@ -11,18 +11,23 @@
 /* ************************************************************************** */
 
 import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
+    static int n;
+    static int m;
+    static int k;
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(); // 격자가 N X N인 배열
-        int m = sc.nextInt(); // 파이어볼의 개수
-        int k = sc.nextInt(); // K번 이동
+        n = sc.nextInt(); // 격자가 N X N인 배열
+        m = sc.nextInt(); // 파이어볼의 개수
+        k = sc.nextInt(); // K번 이동
 
         int[][] grid = new int[n][n]; // 격자
 
-        List<Fireball> fireballList = new ArrayList<Fireball>();
+        List<Fireball> fireballList = new ArrayList<>();
 
         // 파이어볼 이동
         for (int i = 0; i < m; i++) {
@@ -32,12 +37,11 @@ public class Main {
             fireball.setM(sc.nextInt());
             fireball.setS(sc.nextInt());
             fireball.setD(sc.nextInt());
-            
+
             move(fireball.getR()
                 , fireball.getC()
-                , fireball.getM()
-                , fireball.getS()
-                , fireball.getD());
+                , fireball.getD()
+                , fireball.getS());
             
             fireballList.add(fireball);
         }
@@ -57,54 +61,57 @@ public class Main {
         마법사 상어가 이동을 K번 명령한 후, 남아있는 파이어볼 질량의 합을 구해보자.
          */
 
+        // 파이어볼의 위치 확인
+        
     }
 
-    void move(int r, int c, int d, int s) {
+    static void move(int r, int c, int d, int s) {
         // d 방향으로 s칸 만큼 이동
         switch (d) {
             case 0:
-                r = r - (1 * s);
+                r = r - (1 * s * k);
                 break;
             case 1:
-                r = r - (1 * s);
-                c = c + (1 * s);
+                r = r - (1 * s * k);
+                c = c + (1 * s * k);
                 break;
             case 2:
-                c = c + (1 * s);
+                c = c + (1 * s * k);
                 break;
             case 3:
-                r = r + (1 * s);
-                c = c + (1 * s);
+                r = r + (1 * s * k);
+                c = c + (1 * s * k);
                 break;
             case 4:
-                r = r + (1 * s);
+                r = r + (1 * s * k);
                 break;
             case 5:
-                r = r + (1 * s);
-                c = c - (1 * s);
+                r = r + (1 * s * k);
+                c = c - (1 * s * k);
                 break;
             case 6:
-                c = c - (1 * s);
+                c = c - (1 * s * k);
                 break;
             case 7:
-                r = r - (1 * s);
-                c = c - (1 * s);
+                r = r - (1 * s * k);
+                c = c - (1 * s * k);
                 break;
             default:
                 break;
         }
     }
-    return r, c;
 }
 
-class Fireball () {
+class Fireball {
     int r; // 파이어볼 위치 행
     int c; // 파이어볼 위치 열
     int m; // 질량
     int d; // 방향
     int s; // 가속력
+
+    public Fireball() {}
     
-    fireball(int r, int c, int m, int d, int s) {
+    public Fireball(int r, int c, int m, int d, int s) {
         this.r = r;
         this.c = c;
         this.m = m;
