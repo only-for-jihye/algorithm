@@ -10,14 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-import java.util.Scanner;
 import java.util.*;
 
 public class Main {
 
+    public static class Fireball {
+        int r; // 파이어볼 위치 행
+        int c; // 파이어볼 위치 열
+        int m; // 질량
+        int d; // 방향
+        int s; // 가속력
+
+        Fireball(int r, int c, int m, int d, int s) {
+            this.r = r;
+            this.c = c;
+            this.m = m;
+            this.d = d;
+            this.s = s;
+        }
+    }d
+
     static int n;
     static int m;
     static int k;
+    static List<Fireball>[][] grid;
+    static List<Fireball> fireball;
+    static int[] dr = {-1, -1, 0, 1, 1, 1, 0, -1}; // 행 방향
+    static int[] dc = {0, 1, 1, 1, 0, -1, -1, -1}; // 열 방향
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -25,138 +44,105 @@ public class Main {
         m = sc.nextInt(); // 파이어볼의 개수
         k = sc.nextInt(); // K번 이동
 
-        int[][] grid = new int[n][n]; // 격자
+        grid = new ArrayList[n + 1][n + 1];
+        fireball = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                grid[i][j] = new ArrayList<>();
+            }
+        }
 
-        List<Fireball> fireballList = new ArrayList<>();
-
-        // 파이어볼 이동
         for (int i = 0; i < m; i++) {
-            Fireball fireball = new Fireball();
-            fireball.setR(sc.nextInt());
-            fireball.setC(sc.nextInt());
-            fireball.setM(sc.nextInt());
-            fireball.setS(sc.nextInt());
-            fireball.setD(sc.nextInt());
-
-            move(fireball.getR()
-                , fireball.getC()
-                , fireball.getD()
-                , fireball.getS());
-            
-            fireballList.add(fireball);
+            int r = sc.nextInt(); // 행
+            int c = sc.nextInt(); // 열
+            int m = sc.nextInt(); // 질량
+            int s = sc.nextInt(); // 속도
+            int d = sc.nextInt(); // 방향
+            grid[r][c].add(new Fireball(r, c, m, d, s));
+            fireball.add(new Fireball(r, c, m, d, s));
         }
-        // 이동 완료 후, 2개 이상의 파이어볼이 있는 칸에서 ~~
-        /**
-         * 마법사 상어가 모든 파이어볼에게 이동을 명령하면 다음이 일들이 일어난다.
-        모든 파이어볼이 자신의 방향 di로 속력 si칸 만큼 이동한다.
-        이동하는 중에는 같은 칸에 여러 개의 파이어볼이 있을 수도 있다.
-        이동이 모두 끝난 뒤, 2개 이상의 파이어볼이 있는 칸에서는 다음과 같은 일이 일어난다.
-        같은 칸에 있는 파이어볼은 모두 하나로 합쳐진다.
-        파이어볼은 4개의 파이어볼로 나누어진다.
-        나누어진 파이어볼의 질량, 속력, 방향은 다음과 같다.
-        질량은 ⌊(합쳐진 파이어볼 질량의 합)/5⌋이다.
-        속력은 ⌊(합쳐진 파이어볼 속력의 합)/(합쳐진 파이어볼의 개수)⌋이다.
-        합쳐지는 파이어볼의 방향이 모두 홀수이거나 모두 짝수이면, 방향은 0, 2, 4, 6이 되고, 그렇지 않으면 1, 3, 5, 7이 된다.
-        질량이 0인 파이어볼은 소멸되어 없어진다.
-        마법사 상어가 이동을 K번 명령한 후, 남아있는 파이어볼 질량의 합을 구해보자.
-         */
-
-        // 파이어볼의 위치 확인
         
+        for (int l = 0; l < k; k++) {
+            move();
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (grid[i][j].size() >= 2) {
+                        combAndDevide(i, j, grid[i][j]);
+                    }
+                }
+            }
+            clean();
+        }
+        int answer = 0;
+        for (Fireball ball : fireball) {
+            answer += ball.m;
+        }
+        System.out.println(answer);
     }
 
-    static void move(int r, int c, int d, int s) {
-        // d 방향으로 s칸 만큼 이동
-        switch (d) {
-            case 0:
-                r = r - (1 * s * k);
-                break;
-            case 1:
-                r = r - (1 * s * k);
-                c = c + (1 * s * k);
-                break;
-            case 2:
-                c = c + (1 * s * k);
-                break;
-            case 3:
-                r = r + (1 * s * k);
-                c = c + (1 * s * k);
-                break;
-            case 4:
-                r = r + (1 * s * k);
-                break;
-            case 5:
-                r = r + (1 * s * k);
-                c = c - (1 * s * k);
-                break;
-            case 6:
-                c = c - (1 * s * k);
-                break;
-            case 7:
-                r = r - (1 * s * k);
-                c = c - (1 * s * k);
-                break;
-            default:
-                break;
+    public static void clean() {
+        fireball = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (grid[i][j].size() > 0) {
+                    for (Fireball b : grid[i][j]) {
+                        fireball.add(b);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void move() {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                grid[i][j] = new ArrayList<>();
+            }
+        }
+
+        for (Fireball fb : fireball) {
+            int nr = fb.r + dr[fb.d] * (fb.s % n);
+            int nc = fb.c + dc[fb.d] * (fb.s % n);
+            if (nr <= 0) nr += n;
+            if (nc <= 0) nc += n;
+            if (nr > n) nr -= n;
+            if (nc > n) nc -= n;
+
+            fb.r = nr;
+            fb.c = nc;
+            grid[nr][nc].add(fb);
+        }
+    }
+
+    public static void combAndDevide(int r, int c, List<Fireball> fireball) {
+        int mSum = 0;
+        int sSum = 0;
+        boolean isEven = true;
+        boolean isOdd = true;
+        for (Fireball ball : fireball) {
+            mSum += ball.m;
+            sSum += ball.s;
+            if (ball.d % 2 != 0) {
+                isEven = false;
+            } else {
+                isOdd = false;
+            }
+        }
+        int nm = mSum / 5;
+        int ns = sSum / fireball.size();
+        int[] dirs = {0, 2, 4, 6};
+        if (!isOdd && !isEven) {
+            dirs[0] = 1;
+            dirs[1] = 3;
+            dirs[2] = 5;
+            dirs[3] = 7;
+        }
+
+        grid[r][c] = new ArrayList<>();
+        if (nm <= 0) return;
+        for (int d : dirs) {
+            grid[r][c].add(new Fireball(r, c, nm, d, ns));
         }
     }
 }
 
-class Fireball {
-    int r; // 파이어볼 위치 행
-    int c; // 파이어볼 위치 열
-    int m; // 질량
-    int d; // 방향
-    int s; // 가속력
-
-    public Fireball() {}
-    
-    public Fireball(int r, int c, int m, int d, int s) {
-        this.r = r;
-        this.c = c;
-        this.m = m;
-        this.d = d;
-        this.s = s;
-    }
-
-    public int getR() {
-        return r;
-    }
-
-    public int getC() {
-        return c;
-    }
-    
-    public int getM() {
-        return m;
-    }
-
-    public int getD() {
-        return d;
-    }
-
-    public int getS() {
-        return s;
-    }
-
-    public void setR(int r) {
-        this.r = r;
-    }
-
-    public void setC(int c) {
-        this.c = c;
-    }
-
-    public void setM(int m) {
-        this.m = m;
-    }
-
-    public void setD(int d) {
-        this.d = d;
-    }
-
-    public void setS(int s) {
-        this.s = s;
-    }
-
-}
