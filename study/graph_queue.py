@@ -17,3 +17,5 @@ print(queue) # 먼저 들어온 순서대로 출력
 queue.reverse() # 역순으로 바꾸기
 print(queue) # 나중에 들어온 원소부터 출력
 
+# 단순히 list를 사용해서 queue를 구현하게 되면 시간 복잡도가 요구되므로
+# deque를 사용해서 구현
