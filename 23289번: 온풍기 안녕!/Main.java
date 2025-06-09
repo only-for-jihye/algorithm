@@ -43,33 +43,33 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        r = sc.nextInt();
-        c = sc.nextInt();
-        k = sc.nextInt();
-        divs = new Hot[r][c];
+        r = sc.nextInt(); // 행
+        c = sc.nextInt(); // 열
+        k = sc.nextInt(); // 마지막 검사 (모든 칸의 온도가 k이상인지 확인)
+        divs = new Hot[r][c]; // 각 칸의 온풍기가 있는지, 있으면 방향이 어딘지, 그리고 온도, 마지막 조건 결과 등을 담는다.
 
         for(int i = 0; i < r; i++) {
             for(int j = 0; j < c; j++) {
-                int input = sc.nextInt();
-                int isHot = 0, temp = 0;
-                boolean result = false;
+                int input = sc.nextInt(); // 입력값 받기
+                int isHot = 0, temp = 0; // 초기화
+                boolean result = false; // 마지막 조건 결과
                 if (input == 5) {
-                    result = true;
+                    result = true; // 5를 입력받으면 마지막 조건 대상
                 }
                 if (input >= 1 && input <= 4) {
-                    isHot = input;
+                    isHot = input; // 온풍기 방향 세팅
                 }
                 divs[i][j] = new Hot(isHot, temp, result);
             }
         }
 
-        w = sc.nextInt();
-        wall = new boolean[r][c][2];
+        w = sc.nextInt(); // 벽의 개수
+        wall = new boolean[r][c][2]; // 벽의 위치를 담는다.
 
         for (int i = 0; i < w; i++) {
-            int wallX = sc.nextInt() - 1;
-            int wallY = sc.nextInt() - 1;
-            int wallT = sc.nextInt(); // 위쪽 = 0, 오른쪽 = 1
+            int wallX = sc.nextInt() - 1; // 0-based
+            int wallY = sc.nextInt() - 1; // 0-based
+            int wallT = sc.nextInt(); // 위쪽 벽 = 0, 오른쪽 벽 = 1
             // divs[x][y].block = true;
 
             if (wallT == 0) {
@@ -80,17 +80,19 @@ public class Main {
         }
 
         // 시작
-        int choco = 0; // 초코
-        while (choco <= 100) {
+        int choco = 0; // 초코 개수 시작
+        while (choco <= 100) { // 초코가 100개가 될 때까지만 돌림
+            // 1. 온풍기 가동
             for(int i = 0; i < r; i++) {
                 for(int j = 0; j < c; j++) {
                     // 1. 온풍기 찾아서 바람 한번 나옴
                     int direction = divs[i][j].isHot;
-                    if (direction != 0) {
-                        start(i, j, direction);
+                    if (direction != 0) { // 0은 빈칸
+                        start(i, j, direction); // 온풍기 틀기 시작, 모든 온풍기가 돌때까지 돌려야한다.
                     }
                 }
             }
+
             // 2. 온도 조절
             controlTemperture();
             // 3. 바깥 온도 감소
@@ -108,20 +110,23 @@ public class Main {
             // 5. 온도 검사
             boolean okay = true;
             for(int x = 0; x < r; x++) {
-                for(int y = 0; y < c; y++) {
+                for(int y = 0; y < c; y++) { // 모든 칸 검사
+
                     if (divs[x][y].result == true && divs[x][y].temp < k) {
                         okay = false;
-                        break;
+                        break; // 마지막 조건 검사 대상이지만 하나라도 온도가 k만큼 안올랐으면 상위 for문으로 이동
                     }
+
                 }
-                if (!okay) break;
+                if (!okay) break; // for문 탈출해서 다시 while 구문 시작
             }
-            if (okay) {
+
+            if (okay) { // 초코가 100개가 안됐지만 모든 칸 만족 시...
                 System.out.println(choco);
-                return;
-            }
+                return; // while 빠져나오기
+            } 
         }
-        // 100번 돌렸는데도 없으면;;
+        // 그리고 초코 100개 이상 먹었지만 모든 칸이 만족이 안됐으면 ?
         System.out.println(101);
         
         
@@ -143,33 +148,33 @@ public class Main {
         switch (direction) {
             case 1:
                 j++;
-                break; // 오른쪽
+                break; // 오른쪽으로 이동
             case 2:
                 j--;
-                break; // 왼쪽
+                break; // 왼쪽으로 이동
             case 3:
                 i--;
-                break; // 위쪽
+                break; // 위쪽으로 이동
             case 4:
                 i++;
-                break; // 아래쪽
+                break; // 아래쪽으로 이동
         }
 
         // 시작
         if (i >= 0 && i < r && j >= 0 && j < c) { 
-            divs[i][j].temp += 5; // 첫칸 5도 증가
-            visited[i][j] = true; // 온도 올림
-            q.offer(new int[]{i, j, 1}); // 처음 넣음
+            divs[i][j].temp += 5; // 첫칸은 무조건 5도 증가함
+            visited[i][j] = true; // 방문 완료 - 온도 올림
+            q.offer(new int[]{i, j, 1}); // 큐에 처음 넣음 (행, 열, 거리)
         }
 
-        while (!q.isEmpty()) {
+        while (!q.isEmpty()) { // 처음 이동한 칸(큐에 처음 넣음)을 기준으로 시작
             int[] current = q.poll();
-            int currentX = current[0];
-            int currentY = current[1];
-            int distance = current[2];
+            int currentX = current[0]; // 행
+            int currentY = current[1]; // 열
+            int distance = current[2]; // 거리 측정
 
             if (distance >= 5) {
-                continue;
+                continue; // 거리가 5 이상이면 종료
             }
 
             int nextTemperture = 5 - distance; // 거리 1이 늘어날때마다 온도는 1 감소 (5 - 4 - 3 - 2 - 1)
@@ -360,17 +365,17 @@ public class Main {
 
     private static void controlTemperture() {
         // 온도가 높은 칸에서 낮은 칸으로 두 칸의 온도 차이 / 4만큼 온도가 조절됨 ?
-        // 상 우 하 좌
+        // 상 우 하 좌, 온도 방향은 대각선 없음
         int[] dx = {-1, 0, 1, 0};
         int[] dy = {0, 1, 0, -1};
-        // 동시에 발생하려면, 배열에 넣어둬야하나?
-        int[][] temp = new int[r][c];
+        // 동시에 발생하려면, 새로운 임시 배열을 만들고, 나중에 합산
+        int[][] temp = new int[r][c]; // 0으로 이루어진 임시 배열
 
         for (int x = 0; x < r; x++) {
             for (int y = 0; y < c; y++) {
                 for (int d = 0; d < 4; d++) {
-                    int nx = x + dx[d];
-                    int ny = y + dy[d];
+                    int nx = x + dx[d]; // 행 방향 이동
+                    int ny = y + dy[d]; // 열 방향 이동
 
                     if (nx >= 0 && nx < r && ny >= 0 && ny < c) {
                         // 벽 확인해야되는뎅..
@@ -384,12 +389,12 @@ public class Main {
                         // if (wall[x][y][1]) continue;
                         if (!isWall(x, y, nx, ny)) {
                             // 온도 차이
-                            int calc = divs[x][y].temp - divs[nx][ny].temp;
-                            if (calc > 0) {
+                            int calc = divs[x][y].temp - divs[nx][ny].temp; // 소수점 절삭
+                            if (calc > 0) { // 온도는 높은 칸에서 낮은 칸으로 이동함
                                 int devide = calc / 4;
-                                temp[x][y] -= devide;
-                                temp[nx][ny] += devide;
-                            } // 다른 한쪽이 크면?.. 어차피 다음 계산에서 다음 셀이 계산함
+                                temp[x][y] -= devide; // 0부터 시작해서 값을 계속 누적
+                                temp[nx][ny] += devide; // 0부터 시작해서 값을 계속 누적
+                            } // calc < 0을 계산하지 않는 이유는, 어차피 다음 칸에서 계산이 됨, 만약 이 조건을 넣게 되면, 인접한 칸까지 중복 계산이 되어버림
                         }
                     }
                 }
@@ -397,7 +402,7 @@ public class Main {
         }
         for (int x = 0; x < r; x++) {
             for (int y = 0; y < c; y++) {
-                divs[x][y].temp += temp[x][y];
+                divs[x][y].temp += temp[x][y]; // 기존 온도 + 변화된 온도를 더해줌
             }
         }
     }
