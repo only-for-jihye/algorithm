@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class AD_250611 {
 
     // 전구 종류 상수
     private static final int RED = 0;

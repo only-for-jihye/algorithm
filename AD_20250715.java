@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Solution {
+public class AD_20250715 {
 
     static int N; // 홀의 수
     static int[] holeDepths; // 홀의 깊이를 저장
