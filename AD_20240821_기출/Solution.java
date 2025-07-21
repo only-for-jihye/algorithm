@@ -1,4 +1,4 @@
-package AD_20240821_기출;
+// package AD_20240821_기출;
 
 /*
     Union-Find와 Backtracking 조합으로 풀이
@@ -43,15 +43,16 @@ public class Solution {
             sizes = new int[N + 1];
 
             // Union-Find 초기화: 각 도시의 부모를 자기 자신으로, 크기를 1로 설정
+            // 초기화, 각각 독립적인 집합으로 만든다.
             for (int j = 1; j <= N; j++) {
                 parent[j] = j;
-                sizes[j] = 1;
+                sizes[j] = 1; // 각각 하나씩만 속하므로 사이즈는 1로 초기화
             }
 
             for (int k = 0; k < M; k++) {
                 u = sc.nextInt();
                 v = sc.nextInt();
-                // union 호출
+                // union 호출, 연결된 도시를 하나의 더 큰 집합으로 합친다.
                 union(u, v);
             }
 
@@ -118,10 +119,13 @@ public class Solution {
     }
 
     // Find 연산: 경로 압축 적용
+    // 도시 i가 속한 집합의 최종 대표(루트)를 찾음
     public static int find(int i) {
+        // 자기 자신이 부모인 경우, 그대로 반환 (루트 노드임)
         if (parent[i] == i) {
             return i;
         }
+        // 부모를 재귀적으로 찾음
         return parent[i] = find(parent[i]);
     }
 
@@ -131,6 +135,7 @@ public class Solution {
         int root_j = find(j);
 
         if (root_i != root_j) {
+            // 두 집합을 합칠 때는, 더 작은 집합을 더 큰 집합 아래로 합침침
             // 더 작은 트리를 큰 트리에 붙여서 트리의 높이를 최소화
             if (sizes[root_i] < sizes[root_j]) {
                 int temp = root_i;
@@ -138,9 +143,11 @@ public class Solution {
                 root_j = temp;
             }
 
-            parent[root_j] = root_i;
+            // 작은 집합의 대표의 부모를 큰 집합의 대표로 설정
+            parent[root_j] = root_i; 
+            // 큰 집합의 크기에 작은 집합의 크기를 더해줍니다.
             sizes[root_i] += sizes[root_j];
-            return true; // 병합이 일어남
+            return true; // 병합
         }
         return false; // 이미 같은 집합
     }
