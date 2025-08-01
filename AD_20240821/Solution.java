@@ -1,4 +1,4 @@
-// package AD_20240821_기출;
+package AD_20240821;
 
 /*
     Union-Find와 Backtracking 조합으로 풀이

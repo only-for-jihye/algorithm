@@ -1,4 +1,4 @@
-package AD_20240710_기출;
+package AD_20240710;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
