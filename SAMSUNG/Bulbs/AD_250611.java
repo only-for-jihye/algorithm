@@ -1,7 +1,8 @@
-import java.io.FileReader; // FileReader 추가
+package SAMSUNG.Bulbs;
+
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class AD_250611 {

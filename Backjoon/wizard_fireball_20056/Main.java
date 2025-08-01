@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-import java.util.*;
+package Backjoon.wizard_fireball_20056;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 @SuppressWarnings("unchecked")
 public class Main {

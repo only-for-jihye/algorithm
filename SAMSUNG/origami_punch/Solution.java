@@ -1,9 +1,9 @@
-package AD_20240710;
+package SAMSUNG.origami_punch;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.StringTokenizer;
 
 public class Solution {
     static int w; // 가로

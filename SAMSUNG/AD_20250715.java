@@ -1,9 +1,11 @@
-// package 250715;
+package SAMSUNG;// package 250715;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class AD_20250715 {
 

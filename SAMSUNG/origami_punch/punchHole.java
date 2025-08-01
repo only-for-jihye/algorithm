@@ -1,6 +1,11 @@
+package SAMSUNG.origami_punch;
+
 import java.io.*;
-  
-public class Solution {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class punchHole {
     static final int DIR_V = 0;
     static final int DIR_H = 1;
       
@@ -10,8 +15,8 @@ public class Solution {
     static ArrayList<Papper> pappers;
     static ArrayList<Node> holes;
     public static void main(String[] args) throws Exception {
-        // FileInputStream fls = new FileInputStream("input.txt");
-        // System.setIn(fls);
+         FileInputStream fls = new FileInputStream("SAMSUNG/origami_punch/sample2.txt");
+         System.setIn(fls);
           
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
           

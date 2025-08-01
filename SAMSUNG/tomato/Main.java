@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+package SAMSUNG.tomato;/* ************************************************************************** */
 /*                                                                            */
 /*                                                      :::    :::    :::     */
 /*   Problem Number: 7569                              :+:    :+:      :+:    */
@@ -11,13 +11,12 @@
 /* ************************************************************************** */
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
 

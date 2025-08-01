@@ -1,4 +1,4 @@
-package AD_20240821;
+package SAMSUNG.urban_railway;
 
 /*
     Union-Find와 Backtracking 조합으로 풀이
@@ -9,7 +9,7 @@ package AD_20240821;
        이는 그래프 복사 비용과 매번 전체 탐색을 해야 하는 오버헤드가 발생합니다. 특히 그래프 복사(깊은 복사) 과정에서 실수가 발생하기 쉽습니다.
  */
 
-import java.io.*;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -27,7 +27,8 @@ public class Solution {
 
     public static void main(String[] args) throws Exception {
         // FileInputStream fls = new FileInputStream("sample.txt");
-        FileInputStream fls = new FileInputStream("D:\\repository\\algorithm\\AD_20240821_기출\\sample.txt");
+//        FileInputStream fls = new FileInputStream("D:\\repository\\algorithm\\AD_20240821_기출\\sample.txt");
+        FileInputStream fls = new FileInputStream("D:\\repository\\algorithm\\AD_20240821_기출\\org_sample.txt");
         System.setIn(fls);
 
         Scanner sc = new Scanner(System.in);

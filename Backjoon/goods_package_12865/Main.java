@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                      :::    :::    :::     */
-/*   Problem Number: 12865                             :+:    :+:      :+:    */
+/*   Problem Number: backjoon.12865                             :+:    :+:      :+:    */
 /*                                                    +:+    +:+        +:+   */
 /*   By: funjongsoo <boj.kr/u/funjongsoo>            +#+    +#+          +#+  */
 /*                                                  +#+      +#+        +#+   */
@@ -9,8 +9,10 @@
 /*   Solved: 2025/06/18 21:43:56 by funjongsoo    ###          ###   ##.kr    */
 /*                                                                            */
 /* ************************************************************************** */
+package Backjoon.goods_package_12865;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
