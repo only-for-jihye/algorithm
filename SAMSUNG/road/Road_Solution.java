@@ -1,3 +1,4 @@
+package road;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -5,7 +6,7 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 import java.util.Arrays;
 
-public class Road_Solution2 {
+public class Road_Solution {
 	
 	static int N;
 	static int M;

@@ -1,4 +1,4 @@
-package SAMSUNG.urban_railway;
+package urban_railway;
 
 /*
     Union-Find와 Backtracking 조합으로 풀이

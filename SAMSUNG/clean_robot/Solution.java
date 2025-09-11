@@ -1,4 +1,4 @@
-package SAMSUNG.clean_robot;
+package clean_robot;
 
 import java.io.BufferedReader;
 import java.io.IOException;

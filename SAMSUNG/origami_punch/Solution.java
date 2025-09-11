@@ -1,4 +1,4 @@
-package SAMSUNG.origami_punch;
+package origami_punch;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
