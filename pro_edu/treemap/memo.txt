@@ -1,0 +1,53 @@
+2025-09-17
+
+
+TreeMap
+    -> 데이터의 정렬이 필요할 때 사용
+    -> binary search tree 
+    -> 시간 : 반복 횟수
+        -> 전체 데이터가 N개라 가정할 때, logN
+        -> 데이터를 정렬해서 관리할 것이 아니라면, Hash를 사용하는 것이 더 낫다.
+            -> insert와 delete가 발생할 때, 최악의 경우 시간복잡도 N
+
+===========================
+         자료구조
+===========================
+DAT (Array)
+    ArrayList : 몇 개의 data인지 확실하지 않을 때, 맨 뒤에 추가
+        ArrayDeque : 맨 앞에도 추가
+
+    HashMap : DAT에서 index를 쓰지 못하는 경우
+
+TreeMap : 정렬된 상태로 유지 관리
+    -> data의 삽입, 삭제가 많을 때 사용하면 좋음
+    -> "우선 순위"
+
+우선 순위
+    - 우선 순위가 가장 높은 data만 참고
+        PriorityQueue
+    - 정렬된 상태를 유지하는데 data의 변동이 없는 경우
+        Sort
+    - 정렬된 상태를 유지하는데 data의 변동이 많은 경우
+        ***TreeMap 사용 방법
+            .ceilingEntry
+            .floorEntry
+            .lowerEntry
+            .higherEntry
+
+            Map.Entry<Integer, Integer> entry = tm.ceilingEntry(17);
+
+            ceiling & higher : 특정 수보다 큰 값을 찾는다.
+                ceiling : 특정 값 "이상"
+                higher : 특정 값 "초과"
+            floor & lower : 특정 수보다 작은 값을 찾는다.
+                floor : 특정 값 "이하"
+                lower : 특정 값 "미만"  
+            -> 특정 Value가 주어지고, Value 보다 작으면서 가장 큰 값을 찾아라.
+                Value보다 큰 data 중 가장 작은 값을 찾아라.
+            -> A 이상 B 미만의 값을 찾을 때
+                .subMap 사용 (true : equal)
+                - 10 이상 50 미만
+                    tm.subMap(10, true, 50, false)
+                - 10 초과 50 이하
+                    tm.subMap(10, false, 50, true)
+            
