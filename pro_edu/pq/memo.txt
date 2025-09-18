@@ -1,0 +1,62 @@
+자료구조 
+Sort
+    -> 데이터의 변경이 없을 때이므로... 거의 나오지 않음
+PriorityQueue
+    -> 잘 나옴
+    -> 기본 사용 방법
+    -> 내부 구조(TreeMap과 차이) 
+Binary Search
+    -> Parametric Search 
+        -> main or sub로 출제
+==================================================
+
+Sort
+    int arr[] = {1, 2, 5, 6, 3};
+    Arrays.sort(arr);
+    // 이점 : 중간번째 data를 빠르게 접근 
+
+    // 2번째 : comparator <- 비교용 class
+    Arrays.sort(arr, new Comparator());              // 단순자료형 : A < B 
+    // 쉽게
+    Integer[] arr2 = {1, 5, 6, 3};
+    Arrays.sort(arr2, Collections.reverseOrder());   // 객체 : A.compareTo(B) // 클래스형 자료의 정렬에서 사용
+
+    ArrayList<Node> node = new ArrayList<>();
+    -> Collections.sort(node);
+    -> Collections.sort(node, Collections.reverseOrder());
+
+==================================================
+
+PriorityQueue
+    기본 : 작은게 우선
+    큰 것을 우선으로 : PriorityQueue<Integer> q = new PriorityQueue<>(Collections.reverseOrder());
+    *** 내부적으로 비교 : compareTo 
+    q.peek();  // 우선 순위 가장 높은 data 1개 확인
+    q.poll();  // 우선 순위 가장 높은 data 1개 확인 + 추출(삭제)
+    
+    규칙
+    1. 점이 추가되는 순서
+    2. 모든 점들은 바로 윗 점보다 우선순위가 낮고
+        바로 아래점보다 우선순위가 높다.
+    *** 주의해야 할 것
+        1. 일단 넣은 것은 직접 수정하면 안된다.
+        2. 중간에 있는 data를 직접 삭제 X -> lazy delete ??? 
+            -> TreeMap도 중간에 데이터를 직접 수정하거나 삭제하지 말아라 ..
+            *수정이 필요할 때 : remove -> 수정 -> put 
+
+        3. 시간복잡도 : 삽입/삭제 logN 
+            -> TreeMap과 시간 복잡도는 거의 유사하지만, 실질적으로 data를 관리하는 시간이 TreeMap이 더 오래걸리므로 PriorityQueue가 조금 더 빠르다.
+            -> PriorityQueue : 최상위 우선순위를 추출하여 사용하고 싶을 때 Best 
+        
+        -> 중간 data를 삭제하는 경우 ?
+            특정 data의 id를 찾아서 삭제
+            boolean[id] isDelete = 해당 id의 값이 삭제됐는가? <- lazy ****
+                또는 객체로 생성할 경우, boolean isDelete를 변수로 추가해서 사용하는 방법도 있음
+        
+TreeMap   vs   PriorityQueue
+-> TreeMap은 같은 Key일 경우, value에 ArrayList<>를 선언해야 한다.
+-> 따라서 우선순위가 같은 데이터를 찾게 될 경우, PriorityQueue를 사용하는 편이 좋다.
+
+==================================================
+
+
