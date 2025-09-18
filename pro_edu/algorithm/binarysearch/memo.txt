@@ -1,0 +1,34 @@
+binary search 
+    -> up down 게임
+    1 ~ 100
+    1 ~ 50
+    절반씩 ..
+    -> 시간 복잡도 logN 
+
+parametric search 
+    1. 기본적으로 범위를 좁혀 나가는 구조 : mid
+    2. = <- 검증
+    3. ans를 가정하고 검증하는 방식
+
+이 문제가 parametric search인지 아닌지 판단 ??
+    -> TreeMap : "target보다 크면서 제일 작은 값"이면 TreeMap으로 풀어라...
+    -> 근데 parametric search도 동일 ?
+    -> 구별하는 방법
+        : data가 연속적인가? 0~10000 중 하나 parametric search
+          data가 이산적인가? TreeMap
+
+
+
+자료구조
+Array <= DAT 
+ArrayList
+ArrayDeque
+HashMap
+TreeMap 
+PriorityQueue
+
+알고리즘
+Parametric Searching 
+    => Dijkstra로 어렵게 풀어야 하는 문제를 얘를 섞어서 쉽게 풀 수 있음?
+
+
