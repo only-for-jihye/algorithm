@@ -1,0 +1,67 @@
+Union-Find
+    그룹 단위 관리
+    -> Boss 정보로 관리
+
+import java.io.*;
+import java.util.*;
+
+class Main {
+	
+	static int parents[];
+	
+	// Union-Find
+	// Union : 인수 합병
+	// Find : 그룹 boss
+	
+	static int Find(int node) {
+		if(node == parents[node])
+			return node;
+		int boss = Find(parents[node]); // 1번쯤은 타고 올라가는데
+		parents[node] = boss; // 다음부턴 중간단계 스킵
+		return boss;
+	}
+	
+	static int GroupPopulations[];
+	
+	static void Union(int Anode, int Bnode) {
+		int Aboss = Find(Anode);
+		int Bboss = Find(Bnode);
+		
+		if(Aboss == Bboss) // 이미 같은 그룹
+			return; //합치는 과정 X
+		
+		parents[Bboss] = Aboss; // Bboss가 Aboss밑으로!
+		
+		// 합쳐지니까 A그룹 정보, B그룹 정보 합침
+		GroupPopulations[Aboss] += GroupPopulations[Bboss];
+		GroupPopulations[Bboss] = 0;
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		// System.setIn(new java.io.FileInputStream("res/sample_input.txt"));
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		// *주의사항*
+		// 처음엔 항상 각자가 boss다!
+		for(int i = 1; i <= N; i++) {
+			parents[i] = i;
+		}
+		
+		
+		
+		Union(1, 2);
+		
+		// 그룹에 대한 정보?
+		int boss = Find(100);
+		
+		GroupPopulations[Find(100)];
+		
+		// 1000번과 2000번은 같은 그룹?
+		if(Find(1000) == Find(2000)) // parents[1000] == parents[2000] X
+		{
+			같은 그룹
+		}
+		
+	}
+}

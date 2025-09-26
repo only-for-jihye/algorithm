@@ -18,34 +18,26 @@ import java.util.*;
 class UserSolution {
 
 	// 도로 정보
-//	Road[] roads;
-	// 도시 정보
-	City[] citys;
+	Road[] roads;
+	// 시간이 가장 오래 걸리는 도로 
+	PriorityQueue<Road> pq;
+	int[] populations;
  
 	/*
 	 * ID를 base로 인구수 <- DAT[id] : 해당 id의 도시 인구수
 	 * 
 	 */
 	public void init(int N, int[] mPopulation) {
-//		roads = new Road[N];
-		citys = new City[N];
+		roads = new Road[N];
+		pq = new PriorityQueue<Road>();
+		populations = new int[N];
 		for (int i = 0; i < N; i++) {
-			citys[i].id = i;
-//			citys[i].population = mPopulation[i];
-//			citys[i].time = citys[i].population;
-//			if (i < N - 1) {
-//				citys[i].time += citys[i + 1].population;
-//			}
+			populations[i] = mPopulation[i];
 		}
-//		for (int i = 0; i < N; i++) {
-//			roads[i].id = i;
-//			int time = citys[i].population;
-//			if (i < N - 1) {
-//				time += citys[i + 1].population;
-//			}
-//			roads[i].time = time;
-//			roads[i].count = 1;
-//		}
+		for (int i = 0; i < N; i++) {
+			roads[i] = new Road(i);
+			pq.add(roads[i]);
+		}
 	}
 	 
 	// 도로 : 시간이 가장 오래 걸리는 도로 찾기
@@ -53,7 +45,13 @@ class UserSolution {
 	// PriorityQueue로 관리하면 된다.
 	// 우선 순위 = 도로를 이동하는 시간
 	public int expand(int M) {
-	    return 0;
+		int ret = 0;
+		for (int i = 0; i < M; i++) {
+			Road now = pq.poll();
+			now.expandRoad();
+			pq.add(now);
+		}
+	    return ret;
 	}
 	
 	/*
@@ -64,8 +62,11 @@ class UserSolution {
 	 *  
 	 */
 	public int calculate(int mFrom, int mTo) {
-		
-	    return 0;
+		int ret = 0;
+		for (int i = Math.min(mTo, mFrom); i < Math.max(mTo, mFrom); i++) {
+			ret += roads[i].time;
+		}
+	    return ret;
 	}
 	
 	// from에서 to까지 선거구 결성
@@ -76,48 +77,63 @@ class UserSolution {
 	// 답 가능 구간 1~1000만 => log1000만 => 약 20번
 	// 가정 횟수 * 검증 횟수 * 호출 = 6000만 반복
 	public int divide(int mFrom, int mTo, int K) {
-	    return 0;
+		
+		int left = 1;
+		int right = 1000*10000;
+		int ret = 0;
+		while (left < right) {
+			int mid = (left + right) / 2;
+			if (isValid(mid, mFrom, mTo, K)	) {
+				left = mid - 1;
+				ret = mid; // 검증이 완료된 최신 값
+			} else {
+				right = mid + 1;
+			}
+		}
+	    return ret;
 	}
-}
-
-class City implements Comparable<City> {
-	int id;
-	int population;
-	int k; // 선거구
-	int time;
-	int roadCnt;
-	public City(int id, int population, int k, int time) {
-		super();
-		this.id = id;
-		this.population = population;
-		this.k = k;
-		this.time = time;
-		this.roadCnt = 1;
+	
+	// value에 대한 검증
+	// mFrom ~ mTo까지 K 개의 선거구 이상이 가능 ? <- 한 선거구는 무조건 value 이하.
+	boolean isValid(int value, int mFrom, int mTo, int K) {
+		int cnt = 0; // 선거구의 수
+		int nowPopulation = 0; // 지금 만들어가는 선거구의 인원 수
+		for (int i = Math.min(mTo, mFrom); i < Math.max(mTo, mFrom); i++) {
+			nowPopulation += populations[i];
+			if (nowPopulation > value) {
+				cnt++;
+				nowPopulation = populations[i];
+			}
+		}
+		if (K >= cnt) return true;
+		else return false;
 	}
-	@Override
-	public int compareTo(City o) {
-		if (this.time < o.time) return -1;
-		if (this.time > o.time) return 1;
-		if (this.id < o.id) return -1;
-		if (this.id > o.id) return 1;
-		return 0;
-	}
-}
-
-class Road implements Comparable<Road> {
-	int id;
-	int time;
-	int count;
-	public Road(int id, int time, int count) {
-		super();
-		this.id = id;
-		this.time = time;
-		this.count = count;
-	}
-	@Override
-	public int compareTo(Road o) {
-		if (this.time < o.time) return -1;
-		if (this.time > o.time) return 1;
-		return 0;
+	
+	class Road implements Comparable<Road> {
+		int id;
+		int time;
+		int count;
+		public Road(int id) {
+			super();
+			this.id = id;
+			this.count = 1;
+			this.time = calcTime();
+		}
+		@Override
+		public int compareTo(Road o) {
+			if (this.time > o.time) return -1; // 내 time이 더 크면 나 먼저
+			if (this.time < o.time) return 1;
+			if (id < o.id) return -1; // 내 id가 작으면 내가 먼저
+			if (id > o.id) return 1;
+			return 0;
+		}
+		private int calcTime() {
+			time = (populations[id] + populations[id + 1]) / count;
+			return time;
+		}
+		public int expandRoad() {
+			count++;
+			return count;
+		}
 	}
 }

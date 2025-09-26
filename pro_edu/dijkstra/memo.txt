@@ -1,0 +1,77 @@
+다익스트라 : 최단거리
+
+시작점 => 모든 점들까지의 최단 거리
+
+ElogE
+1. 그래프 구성
+2. Queue -> PriorityQueue (거리)
+3. 시작점 세팅
+
+4. now 꺼내기
+5. next 찾기
+    -> 짧은 거리일 때만!!
+6. next를 queue에 추가
+7. 4~6 단계 반복
+
+import java.io.*;
+import java.util.*;
+
+class Edge{
+	int to;
+	int cost;
+	public Edge(int to, int cost) {
+		super();
+		this.to = to;
+		this.cost = cost;
+	}
+	
+}
+
+class Main {
+	public static void main(String[] args) throws Exception
+	{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int nodeCount = 7;
+        int edgeCount = 8;
+        ArrayList<Edge> adjList[] = new ArrayList[nodeCount + 1];
+        for(int i = 0 ; i <= nodeCount; i++) adjList[i] = new ArrayList<>();
+        for(int i = 0; i < edgeCount; i++) {
+        	StringTokenizer st = new StringTokenizer(br.readLine());
+        	int from = Integer.parseInt(st.nextToken());
+        	int to = Integer.parseInt(st.nextToken());
+        	int cost = Integer.parseInt(st.nextToken());
+        	adjList[from].add(new Edge(to, cost));
+        	adjList[to].add(new Edge(from, cost));
+        }
+        
+        // pq : 아직 확정이 안된 정보
+        //      시작점으로부터 to까지 cost의 비용으로 갈 수 있다.
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        
+        int dist[] = new int[nodeCount + 1]; // [node번호] = 해당 node까지 최단 거리가 몇인가?
+        for(int i = 0; i <= nodeCount; i++)
+        	dist[i]= Integer.MAX_VALUE;
+        
+        int visited[] = new int[nodeCount + 1];
+        
+        
+        pq.add(new Edge(1, 0));
+        dist[1] = 0;
+		visited[1] = 0;
+        
+        while(!pq.isEmpty()) {
+        	Edge now = pq.poll();
+        	// 점을 확정
+        	if(dist[now.to] < now.cost) // 이미 확정된 점(이번에 꺼낸 정보는 좋지 않은 정보다)
+        		continue;
+        	for(Edge edge : adjList[now.to]) {
+        		int nextNode = edge.to;
+        		int nextCost = edge.cost + now.cost;
+        		if(dist[nextNode] <= nextCost) continue;
+//        		visited[nextNode] = visited[now.to] + 1; // 몇개의 점을 들려서 갔냐?
+        		dist[nextNode] = nextCost;
+        		pq.add(new Edge(nextNode, nextCost));
+        	}
+        }
+	}
+}

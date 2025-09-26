@@ -1,0 +1,108 @@
+BFS
+
+데이터 저장 방법
+    1. 인접 행렬 (2차원 배열)
+        - 단점 : 메모리 (node 개수 ^ 2) : 1만개만 넘어도 메모리가 GB 단위로...
+        - 사용 상황 : node 개수 적을 때
+        - 장점 : 모든 노드 간의 관계 확인 가능 -> 특정 노드 간의 관계 확인 용이
+        (잘 나오지 않음) floyd warshal : 인접 행렬로 진행
+
+    2. 인접 리스트
+        메모리 최적화를 위해 필요한 데이터만 추려 저장
+        from은 그대로 유지, to는 ArrayList<>로 저장
+        ArrayList<>[]
+        - 단점 : to가 발견될 때마다 그냥 추가 -> 특정 from -> to의 특정 node 간의 관계를 찾는데 반복이 들어감감
+        - 사용 상황
+        - 장점 : 메모리 - 간선(edge) 개수만큼 필요
+
+    -> 보통 간선 관련된 문제는 "인접 리스트"를 사용하여 풀이 
+
+동작 과정
+    1. 그래프 구성 (연결 관계)
+    2. Queue or ArrayDeque 
+    3. 시작점 세팅
+    ----------------------
+    4. now 꺼내기
+    5. now -> next 찾기
+    6. 감염됐다 -> next를 Queue에 추가
+    7. 4~6 반복 (더 감염을 시킬 점이 없을 때까지 -> Queue가 비워질 때까지) 
+
+추가 사항
+    1. 방문했던 점을 다시 방문한다 ???
+        -> 다시 가지 못하도록 방지해야 한다.
+            DAT 활용 => DAT[node] => 해당 node는 이미 방문했다. 기록 
+    2. 몇 차 감염이냐 ???
+        -> 시작점에서 몇 번만에 이동이 가능한가?
+            -> 최소 몇 번만에 이동이 가능한가?
+                DAT를 업그레이드.
+                -> DAT[node] : 해당 점이 몇차만에 감염됐는가?
+
+
+import java.io.*;
+import java.util.*;
+
+class Main {
+	public static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public static StringTokenizer st;
+
+
+	public static void main(String[]args) throws Exception {
+		int nodeCount = 7;
+		int edgeCount = 7;
+		// [index : node번호(from)] = from에서 갈 수 있는 node(to)들
+		ArrayList<Integer> adj_list[] = new ArrayList[nodeCount + 1];
+		
+//		추가사항
+//		-> 갔던 점을 다시 가는 상황?
+//		다시 가지 못하게 방지
+//		- dat활용 => DAT[node] = 해당 node는 찾았다(감염됐다.) or  들렸다.
+		int visited[] = new int[nodeCount+1];
+
+//		추가사항 2
+//		-> 몇 차 감염이냐? : 시작점에서 최소 몇 번만에 이동이 가능한가?
+//		 - DAT upgrade
+//		 => DAT[node] : 해당 점이 차만에 감염됐는가? => 0:찾지 못했다.
+		
+		for(int i = 0; i <= nodeCount; i++)
+			adj_list[i] = new ArrayList<>();
+		
+		for(int i = 0; i < edgeCount; i++) {
+			st = new StringTokenizer(br.readLine());
+			int from = Integer.parseInt(st.nextToken());
+			int to = Integer.parseInt(st.nextToken());
+			adj_list[from].add(to);
+		}//		1. 그래프 구성(연결 관계)
+
+//		2. Queue or ArrayDeque
+		Queue<Integer> q = new LinkedList<>();
+
+//		3. 시작점 세팅
+		visited[1] = 1;
+		q.add(1);
+
+//		---------------------------
+
+//		7. 4~6 반복(Queue가 비워질때까지)
+		while(!q.isEmpty()){
+	//		4. now 꺼내기 <- 
+			int now = q.poll();
+			System.out.print(now);
+	//		5. now->next 찾기
+			for(int next : adj_list[now]) {
+	
+				if(visited[next] != 0)
+					continue; // 감염됐던 점이면 무시
+				
+	//			6. 감염됐다. -> next를 Queue에 추가
+				visited[next] = visited[now] + 1;
+				q.add(next);
+			}
+		}	
+		System.out.println();
+		for(int node = 1; node <= nodeCount; node++) {
+			System.out.println(node + " : " + visited[node]);
+		}
+		
+		
+	}
+}
