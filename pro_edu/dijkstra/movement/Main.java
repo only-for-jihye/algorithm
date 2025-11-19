@@ -9,7 +9,7 @@ class Main {
 	private static final int CMD_BIKE	 	= 2;
 	private static final int CMD_MONEY 		= 3; 
 
-	private static UserSolution userSolution = new UserSolution();
+	private static UserSolution2 userSolution = new UserSolution2();
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static StringTokenizer st;
 

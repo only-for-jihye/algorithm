@@ -70,9 +70,9 @@ class UserSolution2 {
 				for(int k = 0; k <= mMaxTime; k++)
 					dist[i][j][k] = Integer.MAX_VALUE;
 		
-		if(mStartSpot == 5 && mEndSpot == 9 && mMaxTime == 57) {
-			int de = 1;
-		}
+//		if(mStartSpot == 5 && mEndSpot == 9 && mMaxTime == 57) {
+//			int de = 1;
+//		}
 		PriorityQueue<Edge> pq = new PriorityQueue(); 
 		// 최소 비용 <- mMaxTime내에서 가능한 최대한 좋은 case들(최대한 빨리 가는 것들)
 		

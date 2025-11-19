@@ -10,7 +10,7 @@ import java.util.*;
  * 출발 도시와 도착 도시로 이어져야 한다.
  * 이어지는 도로의 정보 id도 관리해야 한다.
  */
-class UserSolution {
+class UserSolution_Answer {
 	
 	HashMap<Integer, Road> map;
 	ArrayList<Road> arr[];
