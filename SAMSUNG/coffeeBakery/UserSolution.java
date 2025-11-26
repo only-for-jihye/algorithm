@@ -15,8 +15,8 @@ class UserSolution {
 	// 제한 거리 : R
 	
 	// -> 각 거리의 최솟값을 구해야한다.
-	PriorityQueue<Edge> cafe_pq;
-	PriorityQueue<Edge> bakery_pq;
+//	PriorityQueue<Edge> cafe_pq;
+//	PriorityQueue<Edge> bakery_pq;
 	PriorityQueue<Edge> pq;
 	
 	// 커피점 거리
@@ -44,8 +44,8 @@ class UserSolution {
 	}
 
 	public int calculate(int M, int mCoffee[], int P, int mBakery[], int R) {
-		cafe_pq = new PriorityQueue<>();
-		bakery_pq = new PriorityQueue<>();
+//		cafe_pq = new PriorityQueue<>();
+//		bakery_pq = new PriorityQueue<>();
 		pq = new PriorityQueue<>();
 		
 		cafeBakery = new int[N];
