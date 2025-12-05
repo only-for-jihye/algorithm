@@ -3,8 +3,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry excluding="SAMSUNG/|SAMSUNG/charge/|SAMSUNG/bead/|SAMSUNG/Pilars/" kind="src" path=""/>
 	<classpathentry excluding="charge/|bead/|Pilars/" kind="src" path="SAMSUNG"/>
-	<classpathentry kind="src" path="SAMSUNG/bead"/>
-	<classpathentry kind="src" path="SAMSUNG/charge"/>
-	<classpathentry kind="src" path="SAMSUNG/Pilars"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
