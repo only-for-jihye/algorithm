@@ -90,7 +90,7 @@ class UserSolution {
 		if (order.isCompleted) return 0;
 		if (order.isCanceled) return -1;
 		
-		return order.remainingCount;
+		return order.remainingCount; 
 	}
 
 	Main.RESULT hurry() {
