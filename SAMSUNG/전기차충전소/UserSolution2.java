@@ -1,4 +1,4 @@
-package 전기차충전;
+package 전기차충전소;
 
 import java.io.*;
 import java.util.*;

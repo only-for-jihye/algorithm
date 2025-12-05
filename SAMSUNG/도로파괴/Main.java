@@ -12,7 +12,7 @@ class Main {
 
 //	private final static UserSolution usersolution = new UserSolution();
 //	private final static UserSolution2 usersolution = new UserSolution2();
-	private final static UserSolution3 usersolution = new UserSolution3();
+	private final static UserSolution4 usersolution = new UserSolution4();
 
 	private static boolean run(BufferedReader br) throws Exception {
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
@@ -74,7 +74,7 @@ class Main {
 	public static void main(String[] args) throws Exception {
 		int TC, MARK;
 
-		System.setIn(new java.io.FileInputStream("SAMSUNG/RoadDestruction/sample_input.txt"));
+		System.setIn(new java.io.FileInputStream("SAMSUNG/도로파괴/sample_input.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine(), " "); 

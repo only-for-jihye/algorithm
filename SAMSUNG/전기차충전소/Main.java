@@ -1,4 +1,4 @@
-package 전기차충전;
+package 전기차충전소;
 
 import java.io.*;
 import java.util.*;
@@ -10,7 +10,7 @@ class Main
 	private final static int CMD_REMOVE 				= 300;
 	private final static int CMD_COST 				 	= 400;
 //	private final static UserSolution usersolution = new UserSolution();
-	private final static UserSolution2 usersolution = new UserSolution2();
+	private final static UserSolution3 usersolution = new UserSolution3();
 	
 	private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static boolean run() throws Exception
@@ -108,7 +108,7 @@ class Main
 	{
 		int TC, MARK;
 
-		System.setIn(new java.io.FileInputStream("SAMSUNG/ECarCharge/sample_input.txt"));
+		System.setIn(new java.io.FileInputStream("SAMSUNG/전기차충전소/sample_input.txt"));
 
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
