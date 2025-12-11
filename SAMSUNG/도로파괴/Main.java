@@ -12,7 +12,8 @@ class Main {
 
 //	private final static UserSolution usersolution = new UserSolution();
 //	private final static UserSolution2 usersolution = new UserSolution2();
-	private final static UserSolution4 usersolution = new UserSolution4();
+//	private final static UserSolution4 usersolution = new UserSolution4();
+	private final static UserSolution5 usersolution = new UserSolution5();
 
 	private static boolean run(BufferedReader br) throws Exception {
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");

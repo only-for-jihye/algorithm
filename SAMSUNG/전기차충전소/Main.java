@@ -10,7 +10,7 @@ class Main
 	private final static int CMD_REMOVE 				= 300;
 	private final static int CMD_COST 				 	= 400;
 //	private final static UserSolution usersolution = new UserSolution();
-	private final static UserSolution3 usersolution = new UserSolution3();
+	private final static UserSolution4 usersolution = new UserSolution4();
 	
 	private final static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static boolean run() throws Exception

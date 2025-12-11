@@ -7,7 +7,7 @@ class Main {
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //    private static UserSolution userSolution = new UserSolution();
 //    private static UserSolution3 userSolution = new UserSolution3();
-    private static UserSolution4 userSolution = new UserSolution4();
+    private static UserSolution5 userSolution = new UserSolution5();
     private static StringTokenizer st; 
 
     private final static int CMD_INIT = 100;

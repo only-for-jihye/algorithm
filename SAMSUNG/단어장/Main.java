@@ -14,7 +14,8 @@ class Main
 	private static final int CMD_SEARCH			= 400;
 	private static final int CMD_GO				= 500;
 
-	private static UserSolution usersolution = new UserSolution();
+//	private static UserSolution usersolution = new UserSolution();
+	private static UserSolution3 usersolution = new UserSolution3();
 
 	public static class PAGE
 	{
@@ -102,7 +103,7 @@ class Main
 
 	public static void main(String[] args) throws Exception
 	{
-		//System.setIn(new java.io.FileInputStream("res/sample_input.txt"));
+		System.setIn(new java.io.FileInputStream("SAMSUNG/단어장/input.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine(), " ");

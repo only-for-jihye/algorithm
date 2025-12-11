@@ -9,7 +9,8 @@ class Main {
 	private static final int CMD_REMOVE 	= 300;
 	private static final int CMD_COST 		= 400; 
 
-	private static UserSolution userSolution = new UserSolution();
+//	private static UserSolution userSolution = new UserSolution();
+	private static UserSolution3 userSolution = new UserSolution3();
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static StringTokenizer st;
 
@@ -78,7 +79,7 @@ class Main {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// System.setIn(new java.io.FileInputStream("res/sample_input.txt"));
+		 System.setIn(new java.io.FileInputStream("SAMSUNG/통행료할인/input.txt"));
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer stinit = new StringTokenizer(br.readLine(), " ");
