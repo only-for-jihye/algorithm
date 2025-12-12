@@ -1,5 +1,7 @@
 package A_RE;
 
+import java.util.List;
+
 public class Hashing {
 
 	public static void main(String[] args) {
@@ -65,3 +67,76 @@ public class Hashing {
 		return sb.toString();
 	}
 }
+
+// 재은프로님꺼
+class UserSolution {
+
+    // 해시가 담을 수 있는 최대 문자열 길이
+    static final int MAX_WORD_LEN = 10;
+
+    /*
+     * 문자를 숫자로 해싱
+     * C++의 char* str -> Java의 String str (또는 char[] str)
+     * C++의 long long -> Java의 long (64bit)
+     */
+    public long hashFunction(String str) {
+        long hash = 0;
+
+        // 시작 비트 위치 (최대 길이 10 기준, 0~9번 인덱스 -> 비트 45부터 시작)
+        int start_bit = (MAX_WORD_LEN - 1) * 5; // 45
+
+        // 입력 문자열 길이와 최대 길이 제한 확인
+        // Java에서는 str의 null 문자('\0') 체크 대신 length()를 사용합니다.
+        int len = str.length();
+        
+        for (int i = start_bit, j = 0; i >= 0 && j < len; i -= 5, j++) {
+            // 'a'(97) -> 1, 'b' -> 2 ... 로 변환
+            // long으로 캐스팅 후 시프트 연산
+            hash |= ((long)(str.charAt(j) - 96) << i);
+        }
+        return hash;
+    }
+
+    /*
+     * hashFunction함수의 역연산 함수
+     * Java에서는 문자열 연결 효율을 위해 StringBuilder 사용
+     */
+    public String getStr(long hash) {
+        StringBuilder sb = new StringBuilder();
+
+        // 시작 비트 위치
+        int start_bit = (MAX_WORD_LEN - 1) * 5; // 45
+
+        for (int i = start_bit; i >= 0; i -= 5) {
+            // 해당 위치의 5비트 추출
+            int val = (int)((hash >> i) & 31); // 0b11111
+            
+            if (val == 0) break; // 0 값이 나오면 문자열의 끝 (패딩된 부분)
+            
+            sb.append((char)(val + 96)); // 숫자를 다시 문자로 변환하여 추가
+        }
+        return sb.toString();
+    }
+
+    /*
+     * 실제 배열에 들어갈 index를 탐색함 (Lower Bound)
+     * C++ vector<long long> -> Java List<Long> (또는 ArrayList<Long>)
+     */
+    public int binarySearch(long word, List<Long> vec) {
+        int left = 0;
+        int right = vec.size() - 1;
+        
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            
+            // Java List의 get 메서드 사용
+            if (vec.get(mid) < word) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left; // word 이상인 값이 처음 나오는 위치 (삽입 위치)
+    }
+}
+
