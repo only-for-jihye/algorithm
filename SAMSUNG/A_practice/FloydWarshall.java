@@ -1,4 +1,4 @@
-package A_RE;
+package A_practice;
 
 import java.util.Arrays;
 

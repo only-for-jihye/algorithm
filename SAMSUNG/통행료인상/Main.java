@@ -9,7 +9,8 @@ class Main {
 	private final static int CMD_ADD = 200;
 	private final static int CMD_CALC = 300;
 
-	private final static UserSolution usersolution = new UserSolution();
+//	private final static UserSolution usersolution = new UserSolution();
+	private final static UserSolution2 usersolution = new UserSolution2();
 
 	private static boolean run(Scanner sc) {
 		int q = sc.nextInt();
@@ -84,7 +85,7 @@ class Main {
 	public static void main(String[] args) throws Exception {
 		int TC, MARK;
 
-		System.setIn(new java.io.FileInputStream("SAMSUNG/TollgateIncrease/input.txt"));
+		System.setIn(new java.io.FileInputStream("SAMSUNG/통행료인상/input.txt"));
 
 		Scanner sc = new Scanner(System.in);
 

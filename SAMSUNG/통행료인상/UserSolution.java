@@ -1,211 +1,100 @@
-//package TollgateIncrease;
-//
-//import java.util.*;
-//
-//class UserSolution {
-//	
-//	class Edge implements Comparable<Edge> {
-//		int eCity;
-//		int cost;
-//		public Edge(int eCity, int cost) {
-//			super();
-//			this.eCity = eCity;
-//			this.cost = cost;
-//		}
-//		@Override
-//		public int compareTo(Edge o) {
-//			return Integer.compare(this.cost, o.cost);
-//		}
-//	}
-//	
-//	class Road implements Comparable<Road> {
-//		int sCity;
-//		int eCity;
-//		int cost;
-//		public Road(int sCity, int eCity, int cost) {
-//			super();
-//			this.sCity = sCity;
-//			this.eCity = eCity;
-//			this.cost = cost;
-//		}
-//		void setNewCost(int newCost) {
-//			this.cost += newCost;
-//		}
-//		@Override
-//		public int compareTo(Road o) {
-//			return Integer.compare(this.cost, o.cost);
-//		}
-//	}
-//	
-//	ArrayList<Road>[] roads;
-//	int N;
-//	
-//	public void init(int N, int K, int sCity[], int eCity[], int mToll[]) {
-//		this.N = N;
-//		roads = new ArrayList[N];
-//		for (int i = 0; i < N; i++) {
-//			roads[i] = new ArrayList<>();
-//		}
-//		for (int i = 0; i < K; i++) {
-//			roads[sCity[i]].add(new Road(sCity[i], eCity[i], mToll[i]));
-//			roads[eCity[i]].add(new Road(eCity[i], sCity[i], mToll[i]));
-//		}
-//	}
-//
-//	public void add(int sCity, int eCity, int mToll) {
-//		roads[sCity].add(new Road(sCity, eCity, mToll));
-//		roads[eCity].add(new Road(eCity, sCity, mToll));
-//	}
-//
-//	public void calculate(int sCity, int eCity, int M, int mIncrease[], int mRet[]) {
-////		mRet = new int[M + 1];
-//		for (int i = 0; i < M + 1; i++) {
-//			if (i == 0) {
-//				mRet[0] = processPQ(sCity, eCity);
-//			} else {
-//				for (int j = 0; j < N; j++) {
-//					for (int k = 0; k < roads[j].size(); k++) {
-//						roads[j].get(k).setNewCost(mIncrease[i - 1]);
-//					}
-//					mRet[i] = processPQ(sCity, eCity);
-//				}
-//			}
-////			System.out.println(i + " : " + mRet[i]);
-//		}
-//	}
-//	
-//	int processPQ(int sCity, int eCity) {
-//		PriorityQueue<Edge> pq = new PriorityQueue<>();
-//		pq.add(new Edge(sCity, 0));
-//		int[] dist = new int[N];
-//		for (int i = 0; i < N; i++) {
-//			dist[i] = Integer.MAX_VALUE;
-//		}
-//		dist[0] = 0;
-//		while (!pq.isEmpty()) {
-//			Edge now = pq.poll();
-//			
-//			if (now.eCity == eCity) {
-////				System.out.println(now.cost);
-//				return now.cost;
-//			}
-//			for (Road road : roads[now.eCity]) {
-//				if (now.cost + road.cost < dist[road.eCity]) {
-//					dist[road.eCity] = now.cost + road.cost;
-//					pq.add(new Edge(road.eCity, dist[road.eCity]));
-//				}
-//			}
-//		}
-//		return -1;
-//	}
-//}
 package 통행료인상; 
 
 import java.util.*;
 
+//통행료인상
+//@admin_deukwha
+//dijkstra
+
 class UserSolution {
+	
+	class Edge implements Comparable <Edge> {
+		int to;
+		int cost; 
+		int cnt; 
+		Edge(int to, int cost, int cnt){
+			this.to = to;
+			this.cost = cost;
+			this.cnt = cnt;
+		}
+		@Override
+		public int compareTo(Edge o) {
+			if(cost < o.cost) return -1;   // 가장 비용 싼것 우선
+			if(cost > o.cost) return 1;
+			if(cnt < o.cnt) return -1;     // 비용이 동일하다면 가장 적은 간선의 수로 이동한 것 우선
+			if(cnt > o.cnt) return 1; 
+			return 0;
+		}
+		public void setCost(int cost) {
+			this.cost = cost;
+		}
+	}
+	
+	ArrayList<Edge>[] al;
+	int n;
+	PriorityQueue<Edge>path; 
+	int[] edgeCnt; //index : node#, value: 이 노드까지 거쳐온 간선의 수
 
-    class Edge implements Comparable<Edge> {
-        int eCity;
-        int k;      // 도로 개수
-        int cost;  // '초기 비용' 합
-        public Edge(int eCity, int k, int cost) {
-            this.eCity = eCity;
-            this.k = k;
-            this.cost = cost;
-        }
-        @Override
-        public int compareTo(Edge o) {
-            return Integer.compare(this.cost, o.cost);
-        }
-    }
+	void addEdge(int from, int to, int cost) {
+		al[from].add(new Edge(to, cost, 0));
+		al[to].add(new Edge(from, cost, 0)); 
+	}
+	
+	public void init(int N, int K, int sCity[], int eCity[], int mToll[]) {
+		n = N;
+		al = new ArrayList[N];
+		edgeCnt = new int[n];
+		for(int i = 0; i < N; i++) al[i] = new ArrayList<>();
+		for(int i = 0; i < K; i++) 
+			addEdge(sCity[i], eCity[i], mToll[i]); 
+		path = new PriorityQueue<>();
+		return;
+	}
 
-    class Road {
-        int eCity;
-        int cost; // 초기 비용
-        public Road(int eCity, int cost) {
-            this.eCity = eCity;
-            this.cost = cost;
-        }
-    }
+	public void add(int sCity, int eCity, int mToll) {
+		addEdge(sCity, eCity, mToll); 
+		return;
+	}
 
-    ArrayList<Road>[] roads;
-    int N;
-    final int INF = Integer.MAX_VALUE;
-    
-    int totalCumulativeIncrease; 
-
-    public void init(int N, int K, int sCity[], int eCity[], int mToll[]) {
-        this.N = N;
-        roads = new ArrayList[N];
-        for (int i = 0; i < N; i++) {
-        	roads[i] = new ArrayList<>();
-        }
-        
-        totalCumulativeIncrease = 0; 
-
-        for (int i = 0; i < K; i++) {
-        	roads[sCity[i]].add(new Road(eCity[i], mToll[i]));
-        	roads[eCity[i]].add(new Road(sCity[i], mToll[i]));
-        }
-    }
-
-    public void add(int sCity, int eCity, int mToll) {
-        // [!!!] add 시, 현재 비용(mToll)에서 누적 인상액을 빼서 '초기 비용'을 계산 [!!!]
-        int originalCost = mToll - totalCumulativeIncrease;
-        
-        roads[sCity].add(new Road(eCity, originalCost));
-        roads[eCity].add(new Road(sCity, originalCost));
-//        roads[sCity].add(new Road(eCity, mToll));
-//        roads[eCity].add(new Road(sCity, mToll));
-    }
-
-    public void calculate(int sCity, int eCity, int M, int mIncrease[], int mRet[]) {
-
-        int[][] dist = new int[N][N];
-        for (int i = 0; i < N; i++) {
-            Arrays.fill(dist[i], INF);
-        }
-        PriorityQueue<Edge> pq = new PriorityQueue<>();
-        dist[sCity][0] = 0;
-        pq.add(new Edge(sCity, 0, 0));
-
-        while (!pq.isEmpty()) {
-        	Edge now = pq.poll();
-            if (now.cost > dist[now.eCity][now.k]) continue;
-            int next_k = now.k + 1;
-            if (next_k >= N) continue;
-
-            for (Road road : roads[now.eCity]) {
-                int neighbor = road.eCity;
-                int newCost = now.cost + road.cost; // '초기 비용' 기준
-                if (newCost < dist[neighbor][next_k]) {
-                    dist[neighbor][next_k] = newCost;
-                    pq.add(new Edge(neighbor, next_k, newCost));
-                }
-            }
-        }
-
-        int minCost = INF;
-        for (int k = 0; k < N; k++) {
-            if (dist[eCity][k] == INF) continue;
-            minCost = Math.min(minCost, dist[eCity][k] + k * totalCumulativeIncrease);
-        }
-        mRet[0] = (int) minCost;
-
-        for (int i = 0; i < M; i++) {
-            totalCumulativeIncrease += mIncrease[i];
-            minCost = INF;
-
-            for (int k = 0; k < N; k++) {
-                int originalCost = dist[eCity][k];
-                if (originalCost == INF) continue;
-
-                int currentCost = originalCost + k * totalCumulativeIncrease;
-                minCost = Math.min(minCost, currentCost);
-            }
-            mRet[i + 1] = (int) minCost;
-        }
-        
-    }
+	// 2 x 20,000 x 800(log800) = 3.2억
+	public void calculate(int sCity, int eCity, int M, int mIncrease[], int mRet[]) {
+		path = new PriorityQueue<>();
+		dijkstra(sCity, eCity, 0);
+		mRet[0] = path.peek().cost;  // 처음 경우는 무조건 root
+		int update = 0; 
+		for(int i = 0; i < M; i++) {
+			update += mIncrease[i];  // mIncrease만큼 인상
+			while(path.peek().to < update) { // 필요없는 now.to를 현재까지 업데이트 된 비용으로 사용
+				Edge now = path.remove();
+				now.cost += (update - now.to) * now.cnt; // 새로운 cost 준비
+				now.to = update;                         // 현재까지 업데이트 된 비용 처리
+				path.add(now);
+			}
+			mRet[i+1] = path.peek().cost;
+		}
+		for(int i = 0; i < n; i++) 
+			for(Edge next : al[i]) next.setCost(next.cost + update); // 모든 간선 비용 최종 업데이트
+		return;
+	}
+	
+	void dijkstra(int st, int en, int inc) {
+		Arrays.fill(edgeCnt, Integer.MAX_VALUE);       
+		PriorityQueue<Edge>pq = new PriorityQueue<>();
+		pq.add(new Edge(st, 0, 0));
+		
+		while(!pq.isEmpty()) {
+			Edge now = pq.remove();                        // comparator 정의에 의해 now는 가장 비용이 적으면서, 이동한 간선이 가장 적은 것 우선
+			if(now.cnt >= edgeCnt[now.to]) continue;       // 비용은 이미 최저 확보, 그러니 더 많은 간선으로 왔었다면 의미 없음
+			edgeCnt[now.to] = now.cnt;                     // ** 최소 비용과 간선수가 확정되는 시점
+			if(now.to == en) {
+				path.add(new Edge(0, now.cost, now.cnt));  // 목적지라면, 여기까지 오기 위해 필요했던 간선 수와 최소 비용 경우의 수 기록
+				continue;
+			}
+			for(Edge next : al[now.to]) {
+				if(edgeCnt[next.to] <= now.cnt + 1) continue; 
+				// 같은 간선의 개수로 왔을때 edgeCnt가 갱신되는 것을 방지하기 위해 edgeCnt[] 기록하지 않음 
+				pq.add(new Edge(next.to, now.cost + next.cost, now.cnt + 1));
+			}
+		}
+	}
 }
