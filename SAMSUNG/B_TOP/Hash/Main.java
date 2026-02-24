@@ -5,29 +5,25 @@ import java.util.*;
 
 public class Main {
 	
-	static class Grid {
-		int y;
-		int x;
-		public Grid(int y, int x) {
-			super();
-			this.y = y;
-			this.x = x;
-		}
-	}
+	static char[][] grid;
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
+		int H = Integer.parseInt(st.nextToken());
+		int W = Integer.parseInt(st.nextToken());
 		
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				Grid grid = new Grid(j, i);
-				
+		grid = new char[H][W];
+		
+		for (int i = 0; i < H; i++) {
+			st = new StringTokenizer(br.readLine());
+			String str = st.nextToken();
+			char[] array = str.toCharArray();
+			for (int j = 0; j < W; j++) {
+				grid[i][j] = array[j];
 			}
 		}
+		
 	}
-	
 }
