@@ -9,8 +9,8 @@ class Main {
 	private static final int CMD_REMOVE 	= 300;
 	private static final int CMD_COST 		= 400; 
 
-//	private static UserSolution userSolution = new UserSolution();
-	private static UserSolution3 userSolution = new UserSolution3();
+	private static UserSolution userSolution = new UserSolution();
+//	private static UserSolution3 userSolution = new UserSolution3();
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static StringTokenizer st;
 
